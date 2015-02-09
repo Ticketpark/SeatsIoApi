@@ -1,0 +1,16 @@
+{
+  "name": "ticketpark/seats-io-api",
+  "type": "library",
+  "homepage": "https://github.com/Ticketpark/SeatsIoApi",
+  "license": "© Ticketpark GmbH",
+  "authors": [
+    {"name": "Manuel Reinhard", "email": "manuel.reinhard@ticketpark.ch"}
+  ],
+  "require": {
+    "php": ">=5.4.3",
+    "kriswallsmith/buzz": "~0.13"
+  },
+  "autoload": {
+    "psr-4": { "Ticketpark\\SeatsIo\\": "lib/SeatsIo" }
+  }
+}
