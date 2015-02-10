@@ -10,6 +10,11 @@ use Buzz\Message\Response;
  * The distribution or usage of this code outside Ticketpark GmbH is prohibited.
  * Permission can be granted upon written request to <info@ticketpark.ch>.
  */
+
+
+// @todo
+// https://app.seats.io/api/chart/0b7548a6-52ec-4aae-bdea-4a65564a5975.json
+
 class SeatsIo
 {
     /**
@@ -32,6 +37,9 @@ class SeatsIo
      * @var Browser $defaultBrowser
      */
     protected $defaultBrowser;
+
+    protected $lastError;
+    protected $lastErrorStatusCode;
 
     /**
      * Constructor
@@ -90,7 +98,7 @@ class SeatsIo
     {
         if (null == $this->browser) {
 
-           return $this->getDefaultBrowser();
+            return $this->getDefaultBrowser();
         }
 
         return $this->browser;
@@ -171,8 +179,8 @@ class SeatsIo
 
         $data = array(
             'objects'   => $objects,
-            'eventKey'  => $eventKey,
-            'orderKey'   => $orderKey,
+            'event'     => $eventKey,
+            'orderKey'  => $orderKey,
             'secretKey' => $this->secretKey
         );
 
@@ -194,7 +202,7 @@ class SeatsIo
 
         $data = array(
             'objects'   => $objects,
-            'eventKey'  => $eventKey,
+            'event'     => $eventKey,
             'secretKey' => $this->secretKey
         );
 
@@ -281,7 +289,7 @@ class SeatsIo
         $url = self::BASE_URL . $url;
 
         return $this->handleResponse(
-            $this->getBrowser()->post($url, array(), $data)
+            $this->getBrowser()->post($url, array(), json_encode($data))
         );
     }
 
