@@ -11,10 +11,6 @@ use Buzz\Message\Response;
  * Permission can be granted upon written request to <info@ticketpark.ch>.
  */
 
-
-// @todo
-// https://app.seats.io/api/chart/0b7548a6-52ec-4aae-bdea-4a65564a5975.json
-
 class SeatsIo
 {
     /**
@@ -131,6 +127,24 @@ class SeatsIo
         return $this->get($url);
     }
 
+
+    /**
+     * Get single chart details
+     *
+     * This is an inofficial, undocumented feature mentioned in a
+     * support chart with seats.io co-founder Ben Verbeken (<ben@seats.io>, @bverbeken)
+     *
+     * @param  string $chartKey
+     * @return mixed
+     */
+    public function getSingleChartDetails($chartKey)
+    {
+        $url = 'chart/' . $chartKey . '.json';
+
+        return $this->get($url);
+    }
+
+
     /**
      * Create event in chart
      *
@@ -232,9 +246,9 @@ class SeatsIo
     }
 
     /**
-     * Fetch chart for event
+     * Get objects within an order
      *
-     * @link   http://www.seats.io/docs/api#fetchingChartForEvent
+     * @link   http://www.seats.io/docs/api#orders
      * @param  string $orderKey
      * @param  string $eventKey
      * @return mixed
@@ -303,7 +317,18 @@ class SeatsIo
     {
         if ($response->isSuccessful()) {
 
-            return json_decode($response->getContent(), true);
+            $content = $response->getContent();
+
+            // If the content is not a json string, it is probably a compressed response
+            if (!$this->isJson($content)) {
+
+                if (!$content = gzdecode($content) || !$this->isJson($content)) {
+
+                    throw \Exception('Response does not contain valid json content.');
+                }
+            }
+
+            return json_decode($content, true);
         }
 
         $this->setLastError($response->getContent(), $response->getStatusCode());
@@ -344,5 +369,19 @@ class SeatsIo
 
             throw new \Exception('You must define a secretKey with setSecretKey().');
         }
+    }
+
+    /**
+     * Check if a string is a json
+     *
+     * @link   http://stackoverflow.com/a/6041773/407697
+     * @param  string $string
+     * @return bool
+     */
+    protected function isJson($string)
+    {
+        json_decode($string);
+
+        return (json_last_error() == JSON_ERROR_NONE);
     }
 }

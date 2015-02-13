@@ -57,7 +57,7 @@ class SeatsIoTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCharts()
     {
-        $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock(true));
+        $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock('get'));
 
         $this->assertSame(
             'https://app.seats.io/api/charts/secretKey',
@@ -67,7 +67,7 @@ class SeatsIoTest extends \PHPUnit_Framework_TestCase
 
     public function testGetChartForEvent()
     {
-        $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock(true));
+        $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock('get'));
 
         $this->assertSame(
             'https://app.seats.io/api/chart/secretKey/event/eventKey',
@@ -75,15 +75,19 @@ class SeatsIoTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetSingleChartDetails()
+    {
+        $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock('get'));
+
+        $this->assertSame(
+            'https://app.seats.io/api/chart/chartKey.json',
+            $seatsIo->getSingleChartDetails('chartKey')
+        );
+    }
+
     public function testCreateEvent()
     {
-        $postData = array(
-            'chartKey' => 'chartKey',
-            'eventKey' => 'eventKey',
-            'secretKey' => 'secretKey'
-        );
-
-        $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock(false, true));
+        $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock('post'));
 
         $this->assertSame(
             'https://app.seats.io/api/linkChartToEvent',
@@ -93,7 +97,7 @@ class SeatsIoTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateUser()
     {
-        $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock(false, true));
+        $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock('post'));
 
         $this->assertSame(
             'https://app.seats.io/api/createUser',
@@ -103,7 +107,7 @@ class SeatsIoTest extends \PHPUnit_Framework_TestCase
 
     public function testBook()
     {
-        $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock(false, true));
+        $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock('post'));
 
         $this->assertSame(
             'https://app.seats.io/api/book',
@@ -113,7 +117,7 @@ class SeatsIoTest extends \PHPUnit_Framework_TestCase
 
     public function testRelease()
     {
-        $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock(false, true));
+        $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock('post'));
 
         $this->assertSame(
             'https://app.seats.io/api/release',
@@ -123,7 +127,7 @@ class SeatsIoTest extends \PHPUnit_Framework_TestCase
 
     public function testChangeStatus()
     {
-        $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock(false, true));
+        $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock('post'));
 
         $this->assertSame(
             'https://app.seats.io/api/changeStatus',
@@ -133,7 +137,7 @@ class SeatsIoTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOrder()
     {
-        $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock(true));
+        $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock('get'));
 
         $this->assertSame(
             'https://app.seats.io/api/event/eventKey/orders/orderKey/secretKey',
@@ -141,14 +145,14 @@ class SeatsIoTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function getBrowserMock($get = false, $post = false, $postData = array())
+    public function getBrowserMock($method)
     {
         $browser = $this->getMockBuilder('Buzz\Browser')
             ->disableOriginalConstructor()
             ->setMethods(array('get', 'post'))
             ->getMock();
 
-        if ($get) {
+        if ($method == 'get') {
             $expects = $this->once();
         } else {
             $expects = $this->never();
@@ -159,7 +163,7 @@ class SeatsIoTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnCallback(array($this, 'createResponse')));
 
 
-        if ($post) {
+        if ($method == 'post') {
             $expects = $this->once();
         } else {
             $expects = $this->never();
