@@ -322,10 +322,15 @@ class SeatsIo
             // If the content is not a json string, it is probably a compressed response
             if (!$this->isJson($content)) {
 
-                if (!$content = gzdecode($content) || !$this->isJson($content)) {
+                if (!$content = gzdecode($content)) {
 
-                    throw \Exception('Response does not contain valid json content.');
+                    throw \Exception('Response could not be interpreted.');
                 }
+            }
+
+            if (!$this->isJson($content)) {
+
+                throw \Exception('Response does not contain valid json content.');
             }
 
             return json_decode($content, true);
