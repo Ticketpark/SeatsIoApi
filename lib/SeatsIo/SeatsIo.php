@@ -6,9 +6,9 @@ use Buzz\Browser;
 use Buzz\Message\Response;
 
 /**
- * © Ticketpark GmbH - All rights reserved.
- * The distribution or usage of this code outside Ticketpark GmbH is prohibited.
- * Permission can be granted upon written request to <info@ticketpark.ch>.
+ * SeatsIo
+ *
+ * @author Manuel Reinhard <manuel.reinhard@ticketpark.ch>
  */
 
 class SeatsIo
@@ -34,7 +34,14 @@ class SeatsIo
      */
     protected $defaultBrowser;
 
+    /**
+     * @var string
+     */
     protected $lastError;
+
+    /**
+     * @var int
+     */
     protected $lastErrorStatusCode;
 
     /**
@@ -127,12 +134,12 @@ class SeatsIo
         return $this->get($url);
     }
 
-
     /**
      * Get single chart details
      *
      * This is an inofficial, undocumented feature mentioned in a
      * support chart with seats.io co-founder Ben Verbeken (<ben@seats.io>, @bverbeken)
+     * Use with care!
      *
      * @param  string $chartKey
      * @return mixed
@@ -143,7 +150,6 @@ class SeatsIo
 
         return $this->get($url);
     }
-
 
     /**
      * Create event in chart
@@ -200,7 +206,6 @@ class SeatsIo
 
         return $this->post($url, $data);
     }
-
 
     /**
      * Release objects
