@@ -19,6 +19,8 @@ Now tell composer to download the bundle by running the command:
 $ php composer.phar update ticketpark/seats-io-api
 ```
 
+## Usage
+See [example.php](example.php).
 
 ## License
 This bundle is under the MIT license. See the complete license in the bundle:
