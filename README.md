@@ -1,8 +1,26 @@
 #Seats.io API
 A php library to use the API of <http://www.seats.io>.
 
-##License
+## Installation
 
-© Ticketpark GmbH - All rights reserved.
+Add HtmlPhpExcel in your composer.json:
 
-**The distribution or usage of this code outside Ticketpark GmbH is prohibited.** Permission can be granted upon written request to <info@ticketpark.ch>.
+```js
+{
+    "require": {
+        "ticketpark/seats-io-api": "dev-master"
+    }
+}
+```
+
+Now tell composer to download the bundle by running the command:
+
+``` bash
+$ php composer.phar update ticketpark/seats-io-api
+```
+
+
+## License
+This bundle is under the MIT license. See the complete license in the bundle:
+
+    Resources/meta/LICENSE

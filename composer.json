@@ -1,8 +1,10 @@
 {
   "name": "ticketpark/seats-io-api",
   "type": "library",
+  "description": "A php library to use the public api of seats.io",
+  "keywords": ["seats.io"],
   "homepage": "https://github.com/Ticketpark/SeatsIoApi",
-  "license": "© Ticketpark GmbH",
+  "license": "MIT",
   "authors": [
     {"name": "Manuel Reinhard", "email": "manuel.reinhard@ticketpark.ch"}
   ],
