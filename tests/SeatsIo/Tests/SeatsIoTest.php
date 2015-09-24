@@ -65,6 +65,16 @@ class SeatsIoTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetChartsStaging()
+    {
+        $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock('get'), true);
+
+        $this->assertSame(
+            'https://app-staging.seats.io/api/charts/secretKey',
+            $seatsIo->getCharts()
+        );
+    }
+
     public function testGetChartForEvent()
     {
         $seatsIo = new SeatsIo('secretKey', $this->getBrowserMock('get'));

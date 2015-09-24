@@ -3,6 +3,7 @@
 namespace Ticketpark\SeatsIo;
 
 use Buzz\Browser;
+use Buzz\Client\Curl;
 use Buzz\Message\Response;
 
 /**
@@ -17,6 +18,11 @@ class SeatsIo
      * @const string BASE_URL
      */
     const BASE_URL = 'https://app.seats.io/api/';
+
+    /**
+     * @const string BASE_URL_STAGING
+     */
+    const BASE_URL_STAGING = 'https://app-staging.seats.io/api/';
 
     /**
      * @var string $secretKey
@@ -45,15 +51,35 @@ class SeatsIo
     protected $lastErrorStatusCode;
 
     /**
+     * @var string
+     */
+    protected $baseUrl;
+
+    /**
      * Constructor
      *
      * @param string   $secretKey
      * @param Browser $browser
      */
-    public function __construct($secretKey = null, Browser $browser = null)
+    public function __construct($secretKey = null, Browser $browser = null, $stagingEnvironment = false)
     {
         $this->setSecretKey($secretKey);
         $this->setBrowser($browser);
+        $this->baseUrl = self::BASE_URL;
+
+        if ($stagingEnvironment) {
+
+            // Force the browser to ignore SSL errors when using the stage environment
+            $curlClient = new Curl();
+            $curlClient->setOption(CURLOPT_SSL_VERIFYHOST, 0);
+            $curlClient->setOption(CURLOPT_SSL_VERIFYPEER, 0);
+
+            $browser = clone $browser;
+            $browser->setClient($curlClient);
+            $this->setBrowser($browser);
+
+            $this->baseUrl = self::BASE_URL_STAGING;
+        }
     }
 
     /**
@@ -288,7 +314,7 @@ class SeatsIo
     {
         $this->checkSetup();
 
-        $url = self::BASE_URL . $url;
+        $url = $this->baseUrl . $url;
 
         return $this->handleResponse(
             $this->getBrowser()->get($url)
@@ -305,7 +331,7 @@ class SeatsIo
     {
         $this->checkSetup();
 
-        $url = self::BASE_URL . $url;
+        $url = $this->baseUrl . $url;
 
         return $this->handleResponse(
             $this->getBrowser()->post($url, array(), json_encode($data))
