@@ -5,7 +5,7 @@ namespace Ticketpark\SeatsIo;
 use Buzz\Browser;
 use Buzz\Client\Curl;
 use Buzz\Message\Response;
-use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 
 /**
  * SeatsIo
@@ -56,6 +56,9 @@ class SeatsIo
      */
     protected $baseUrl;
 
+    /**
+     * @var LoggerInterface
+     */
     protected $logger;
 
     /**
@@ -64,7 +67,7 @@ class SeatsIo
      * @param string   $secretKey
      * @param Browser $browser
      */
-    public function __construct($secretKey = null, Browser $browser = null, $stagingEnvironment = false, Logger $logger = null)
+    public function __construct($secretKey = null, Browser $browser = null, $stagingEnvironment = false, LoggerInterface $logger = null)
     {
         $this->setSecretKey($secretKey);
         $this->setBrowser($browser);
