@@ -5,6 +5,7 @@ namespace Ticketpark\SeatsIo;
 use Buzz\Browser;
 use Buzz\Client\Curl;
 use Buzz\Message\Response;
+use Monolog\Logger;
 
 /**
  * SeatsIo
@@ -55,17 +56,20 @@ class SeatsIo
      */
     protected $baseUrl;
 
+    protected $logger;
+
     /**
      * Constructor
      *
      * @param string   $secretKey
      * @param Browser $browser
      */
-    public function __construct($secretKey = null, Browser $browser = null, $stagingEnvironment = false)
+    public function __construct($secretKey = null, Browser $browser = null, $stagingEnvironment = false, Logger $logger = null)
     {
         $this->setSecretKey($secretKey);
         $this->setBrowser($browser);
         $this->baseUrl = self::BASE_URL;
+        $this->logger = $logger;
 
         if ($stagingEnvironment) {
 
@@ -316,9 +320,13 @@ class SeatsIo
 
         $url = $this->baseUrl . $url;
 
-        return $this->handleResponse(
-            $this->getBrowser()->get($url)
-        );
+        $response = $this->getBrowser()->get($url);
+
+        if ($this->logger) {
+            $this->logger->debug('GET '.' '.$response->getStatusCode().' '.$url);
+        }
+
+        return $this->handleResponse($response);
     }
 
     /**
@@ -333,9 +341,13 @@ class SeatsIo
 
         $url = $this->baseUrl . $url;
 
-        return $this->handleResponse(
-            $this->getBrowser()->post($url, array(), json_encode($data))
-        );
+        $response = $this->getBrowser()->post($url, array(), json_encode($data));
+
+        if ($this->logger) {
+            $this->logger->debug('POST '.' '.$response->getStatusCode().' '.$url.' '.json_encode($data));
+        }
+
+        return $this->handleResponse($response);
     }
 
     /**
