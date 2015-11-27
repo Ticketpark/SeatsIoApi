@@ -275,7 +275,7 @@ class SeatsIo
 
         $data = array(
             'objects'   => $objects,
-            'eventKey'  => $eventKey,
+            'event'     => $eventKey,
             'status'    => $status,
             'secretKey' => $this->secretKey
         );
