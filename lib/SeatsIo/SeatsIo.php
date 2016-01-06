@@ -338,6 +338,11 @@ class SeatsIo
      */
     protected function handleResponse(Response $response)
     {
+        if (!$response->isSuccessful()) {
+
+            return false;
+        }
+
         $content = $response->getContent();
 
         try {
