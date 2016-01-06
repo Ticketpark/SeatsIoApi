@@ -361,30 +361,26 @@ class SeatsIo
      */
     protected function handleResponse(Response $response)
     {
-        if ($response->isSuccessful()) {
+        $content = $response->getContent();
 
-            $content = $response->getContent();
-
-            // If the content is not a json string, it is probably a compressed response
-            if (!$this->isJson($content)) {
-
-                if (!$content = gzdecode($content)) {
-
-                    throw \Exception('Response could not be interpreted.');
-                }
+        try {
+            $content = gzdecode($content);
+        } catch (\Exception $e) {
+            if ($this->logger) {
+                $this->logger->debug('handleResponse: not gzencoded: '.$e->getMessage());
             }
-
-            if (!$this->isJson($content)) {
-
-                throw \Exception('Response does not contain valid json content.');
-            }
-
-            return json_decode($content, true);
         }
 
-        $this->setLastError($response->getContent(), $response->getStatusCode());
+        $jsonDecoded = json_decode($content);
+        if (json_last_error() == JSON_ERROR_NONE) {
+            return $jsonDecoded;
+        } else {
+            if ($this->logger) {
+                $this->logger->debug('handleResponse: not json: '.json_last_error_msg());
+            }
+        }
 
-        return false;
+        return $content;
     }
 
     /**
@@ -420,19 +416,5 @@ class SeatsIo
 
             throw new \Exception('You must define a secretKey with setSecretKey().');
         }
-    }
-
-    /**
-     * Check if a string is a json
-     *
-     * @link   http://stackoverflow.com/a/6041773/407697
-     * @param  string $string
-     * @return bool
-     */
-    protected function isJson($string)
-    {
-        json_decode($string);
-
-        return (json_last_error() == JSON_ERROR_NONE);
     }
 }
