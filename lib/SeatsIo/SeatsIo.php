@@ -44,16 +44,6 @@ class SeatsIo
     /**
      * @var string
      */
-    protected $lastError;
-
-    /**
-     * @var int
-     */
-    protected $lastErrorStatusCode;
-
-    /**
-     * @var string
-     */
     protected $baseUrl;
 
     /**
@@ -299,19 +289,6 @@ class SeatsIo
     }
 
     /**
-     * Get last error
-     *
-     * @return array
-     */
-    public function getLastError()
-    {
-        return array(
-            'statusCode' => $this->lastErrorStatusCode,
-            'message'    => $this->lastError,
-        );
-    }
-
-    /**
      * Get data from url
      *
      * @param $url
@@ -381,18 +358,6 @@ class SeatsIo
         }
 
         return $content;
-    }
-
-    /**
-     * Set last error
-     *
-     * @param string $error
-     * @param int    $statusCode
-     */
-    protected function setLastError($error, $statusCode)
-    {
-        $this->lastError = $error;
-        $this->lastErrorStatusCode = $statusCode;
     }
 
     /**
