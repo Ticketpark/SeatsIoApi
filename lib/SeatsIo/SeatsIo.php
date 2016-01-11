@@ -353,7 +353,7 @@ class SeatsIo
             }
         }
 
-        $jsonDecoded = json_decode($content);
+        $jsonDecoded = json_decode($content, true);
         if (json_last_error() == JSON_ERROR_NONE) {
             return $jsonDecoded;
         } else {
