@@ -345,6 +345,11 @@ class SeatsIo
 
         $content = $response->getContent();
 
+        if ('' === $content) {
+            
+            return $content;
+        }
+
         try {
             $content = gzdecode($content);
         } catch (\Exception $e) {
