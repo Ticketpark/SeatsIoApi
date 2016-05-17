@@ -339,6 +339,9 @@ class SeatsIo
     protected function handleResponse(Response $response)
     {
         if (!$response->isSuccessful()) {
+            if ($this->logger) {
+                $this->logger->critical('request failed with status: '.$response->getStatusCode().' '.$url);
+            }
 
             return false;
         }
@@ -346,7 +349,7 @@ class SeatsIo
         $content = $response->getContent();
 
         if ('' === $content) {
-            
+
             return $content;
         }
 
