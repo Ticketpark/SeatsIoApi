@@ -216,7 +216,7 @@ class SeatsIo
      * @param  string $event
      * @return mixed
      */
-    public function book(array $objects, $eventKey, $orderKey = null)
+    public function book(array $objects, $eventKey, $orderKey = null, $reservationToken = null)
     {
         $url = 'book';
 
@@ -224,6 +224,7 @@ class SeatsIo
             'objects'   => $objects,
             'event'     => $eventKey,
             'orderKey'  => $orderKey,
+            'reservationToken'  => $reservationToken,
             'secretKey' => $this->secretKey
         );
 
@@ -305,7 +306,6 @@ class SeatsIo
         if ($this->logger) {
             $this->logger->debug('GET '.' '.$response->getStatusCode().' '.$url);
         }
-
         return $this->handleResponse($response);
     }
 
@@ -322,9 +322,8 @@ class SeatsIo
         $url = $this->baseUrl . $url;
 
         $response = $this->getBrowser()->post($url, array(), json_encode($data));
-
         if ($this->logger) {
-            $this->logger->debug('POST '.' '.$response->getStatusCode().' '.$url.' '.json_encode($data));
+            $this->logger->debug('POST '.' '.$response->getStatusCode().' '. $response->getContent() .' '.$url.' '.json_encode($data));
         }
 
         return $this->handleResponse($response);
@@ -342,7 +341,6 @@ class SeatsIo
             if ($this->logger) {
                 $this->logger->critical('request failed with status: '.$response->getStatusCode().' '.$url);
             }
-
             return false;
         }
 
