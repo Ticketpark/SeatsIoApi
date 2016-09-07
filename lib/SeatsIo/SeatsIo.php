@@ -211,7 +211,7 @@ class SeatsIo
     /**
      * Book objects
      *
-     * @link   http://www.seats.io/docs/api#bookingObjects
+     * @link   http://www.seats.io/docs/api#api-reference-booking-and-releasing-objects-booking-seats-tables-or-booths
      * @param  array $objects
      * @param  string $event
      * @return mixed
@@ -234,18 +234,19 @@ class SeatsIo
     /**
      * Release objects
      *
-     * @link   http://www.seats.io/docs/api#releasingObjects
+     * @link   http://www.seats.io/docs/api#api-reference-booking-and-releasing-objects-releasing-seats-tables-or-booths
      * @param  array $objects
      * @param  string $event
      * @return mixed
      */
-    public function release(array $objects, $eventKey)
+    public function release(array $objects, $eventKey, $reservationToken = null)
     {
         $url = 'release';
 
         $data = array(
             'objects'   => $objects,
             'event'     => $eventKey,
+            'reservationToken'  => $reservationToken,
             'secretKey' => $this->secretKey
         );
 
@@ -255,12 +256,12 @@ class SeatsIo
     /**
      * Change object status
      *
-     * @link   http://www.seats.io/docs/api#releasingObjects
+     * @link   http://www.seats.io/docs/api#api-reference-booking-and-releasing-objects-changing-status-of-seats-tables-or-booths
      * @param  array $objects
      * @param  string $event
      * @return mixed
      */
-    public function changeStatus(array $objects, $eventKey, $status)
+    public function changeStatus(array $objects, $eventKey, $status, $reservationToken = null)
     {
         $url = 'changeStatus';
 
@@ -268,6 +269,7 @@ class SeatsIo
             'objects'   => $objects,
             'event'     => $eventKey,
             'status'    => $status,
+            'reservationToken'  => $reservationToken,
             'secretKey' => $this->secretKey
         );
 
