@@ -306,6 +306,7 @@ class SeatsIo
         if ($this->logger) {
             $this->logger->debug('GET '.' '.$response->getStatusCode().' '.$url);
         }
+
         return $this->handleResponse($response);
     }
 
