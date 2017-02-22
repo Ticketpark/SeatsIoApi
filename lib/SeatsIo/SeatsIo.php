@@ -65,16 +65,6 @@ class SeatsIo
         $this->logger = $logger;
 
         if ($stagingEnvironment) {
-
-            // Force the browser to ignore SSL errors when using the stage environment
-            $curlClient = new Curl();
-            $curlClient->setOption(CURLOPT_SSL_VERIFYHOST, 0);
-            $curlClient->setOption(CURLOPT_SSL_VERIFYPEER, 0);
-
-            $browser = clone $browser;
-            $browser->setClient($curlClient);
-            $this->setBrowser($browser);
-
             $this->baseUrl = self::BASE_URL_STAGING;
         }
     }
