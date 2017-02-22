@@ -1,4 +1,7 @@
-#Seats.io API
+# Seats.io API
+
+[![Build Status](https://travis-ci.org/Ticketpark/SeatsIoApi.svg?branch=master)](https://travis-ci.org/Ticketpark/SeatsIoApi)
+
 A php library to use the API of <http://www.seats.io>.
 
 ## Installation
