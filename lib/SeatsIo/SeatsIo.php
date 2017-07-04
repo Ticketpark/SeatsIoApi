@@ -125,7 +125,7 @@ class SeatsIo
     /**
      * Get charts
      *
-     * @link   http://www.seats.io/docs/api#fetchingMetadata
+     * @link   http://www.seats.io/docs/api#api-reference-charts-list-charts-for-a-user
      * @return mixed
      */
     public function getCharts()
@@ -138,7 +138,7 @@ class SeatsIo
     /**
      * Fetch chart for event
      *
-     * @link   http://www.seats.io/docs/api#fetchingChartForEvent
+     * @link   http://www.seats.io/docs/api#api-reference-charts-fetching-the-chart-linked-to-an-event
      * @param  string $eventKey
      * @return mixed
      */
@@ -152,10 +152,7 @@ class SeatsIo
     /**
      * Get single chart details
      *
-     * This is an inofficial, undocumented feature mentioned in a
-     * support chart with seats.io co-founder Ben Verbeken (<ben@seats.io>, @bverbeken)
-     * Use with care!
-     *
+     * @link   http://www.seats.io/docs/api#api-reference-charts
      * @param  string $chartKey
      * @return mixed
      */
@@ -169,7 +166,7 @@ class SeatsIo
     /**
      * Create event in chart
      *
-     * @link   http://www.seats.io/docs/api#creatingEvents
+     * @link   http://www.seats.io/docs/api#api-reference-events
      * @param  string $chartKey
      * @param  string $eventKey
      * @return mixed
@@ -190,7 +187,7 @@ class SeatsIo
     /**
      * Create user
      *
-     * @link   http://www.seats.io/docs/api#creatingUsers
+     * @link   http://www.seats.io/docs/api#api-reference-users
      * @return mixed
      */
     public function createUser()
@@ -203,7 +200,7 @@ class SeatsIo
     /**
      * Book objects
      *
-     * @link   http://www.seats.io/docs/api#api-reference-booking-and-releasing-objects-booking-seats-tables-or-booths
+     * @link   http://www.seats.io/docs/api#api-reference-booking-and-releasing-objects
      * @param  array $objects
      * @param  string $event
      * @return mixed
@@ -226,7 +223,7 @@ class SeatsIo
     /**
      * Release objects
      *
-     * @link   http://www.seats.io/docs/api#api-reference-booking-and-releasing-objects-releasing-seats-tables-or-booths
+     * @link   http://www.seats.io/docs/api#api-reference-booking-and-releasing-objects
      * @param  array $objects
      * @param  string $event
      * @return mixed
@@ -248,7 +245,7 @@ class SeatsIo
     /**
      * Change object status
      *
-     * @link   http://www.seats.io/docs/api#api-reference-booking-and-releasing-objects-changing-status-of-seats-tables-or-booths
+     * @link   http://www.seats.io/docs/api#api-reference-booking-and-releasing-objects
      * @param  array $objects
      * @param  string $event
      * @return mixed
@@ -271,10 +268,10 @@ class SeatsIo
     /**
      * Get objects within an order
      *
-     * @link   http://www.seats.io/docs/api#orders
+     * @link   http://www.seats.io/docs/api#api-reference-booking-and-releasing-objects-orders
      * @param  string $orderKey
      * @param  string $eventKey
-     * @return mixed
+     * @return array|string
      */
     public function getOrder($orderKey, $eventKey)
     {
@@ -286,8 +283,8 @@ class SeatsIo
     /**
      * Get data from url
      *
-     * @param $url
-     * @return mixed
+     * @param  string $url
+     * @return array|string
      */
     protected function get($url)
     {
@@ -307,8 +304,8 @@ class SeatsIo
     /**
      * Post data to url
      *
-     * @param $url
-     * @return mixed
+     * @param  $url
+     * @return array|string
      */
     protected function post($url, $data = null)
     {
@@ -324,11 +321,13 @@ class SeatsIo
         return $this->handleResponse($response);
     }
 
+
     /**
      * Handle response
      *
-     * @param Response $response
-     * @return mixed
+     * @param  Response $response
+     * @return array|string
+     * @throws UnsuccessfulResponseException
      */
     protected function handleResponse(Response $response)
     {
@@ -380,7 +379,7 @@ class SeatsIo
     }
 
     /**
-     * @throws \Exception
+     * @throws BadSetupException
      */
     protected function checkSetup()
     {
