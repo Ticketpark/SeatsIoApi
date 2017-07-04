@@ -6,6 +6,7 @@ use Buzz\Browser;
 use Buzz\Client\Curl;
 use Buzz\Message\Response;
 use Psr\Log\LoggerInterface;
+use Ticketpark\SeatsIo\Exception\UnsuccessfulResponseException;
 
 /**
  * SeatsIo
@@ -332,9 +333,10 @@ class SeatsIo
     {
         if (!$response->isSuccessful()) {
             if ($this->logger) {
-                $this->logger->critical('request failed with status: '.$response->getStatusCode().' '.$url);
+                $this->logger->critical('seats.io request failed with status: '.$response->getStatusCode());
             }
-            return false;
+
+            throw new UnsuccessfulResponseException();
         }
 
         $content = $response->getContent();
@@ -348,7 +350,7 @@ class SeatsIo
             $content = gzdecode($content);
         } catch (\Exception $e) {
             if ($this->logger) {
-                $this->logger->debug('handleResponse: not gzencoded: '.$e->getMessage());
+                $this->logger->debug('seats.io handleResponse: not gzencoded: '.$e->getMessage());
             }
         }
 
@@ -357,7 +359,7 @@ class SeatsIo
             return $jsonDecoded;
         } else {
             if ($this->logger) {
-                $this->logger->debug('handleResponse: not json: '.json_last_error_msg());
+                $this->logger->debug('seats.io handleResponse: not json: '.json_last_error_msg());
             }
         }
 

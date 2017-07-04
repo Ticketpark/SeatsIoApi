@@ -155,6 +155,33 @@ class SeatsIoTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @expectedException Ticketpark\SeatsIo\Exception\UnsuccessfulResponseException
+     */
+    public function testUnsuccessfulResponse()
+    {
+        $response = $this->getMockBuilder('Buzz\Message\Response')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getStatusCode', 'getContent'))
+            ->getMock();
+
+        $response->expects($this->any())
+            ->method('getStatusCode')
+            ->will($this->returnValue(500));
+
+        $browser = $this->getMockBuilder('Buzz\Browser')
+            ->disableOriginalConstructor()
+            ->setMethods(array('post'))
+            ->getMock();
+
+        $browser->expects($this->once())
+            ->method('post')
+            ->will($this->returnValue($response));
+
+        $seatsIo = new SeatsIo('secretKey', $browser);
+        $seatsIo->book(array('A1', 'B2'), 'eventKey', 'orderId');
+    }
+
     public function getBrowserMock($method)
     {
         $browser = $this->getMockBuilder('Buzz\Browser')
