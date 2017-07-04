@@ -297,7 +297,7 @@ class SeatsIo
         $response = $this->getBrowser()->get($url);
 
         if ($this->logger) {
-            $this->logger->debug('GET '.' '.$response->getStatusCode().' '.$url);
+            $this->logger->debug('GET ' . $response->getStatusCode().' '.$url);
         }
 
         return $this->handleResponse($response);
@@ -317,7 +317,7 @@ class SeatsIo
 
         $response = $this->getBrowser()->post($url, array(), json_encode($data));
         if ($this->logger) {
-            $this->logger->debug('POST '.' '.$response->getStatusCode().' '. $response->getContent() .' '.$url.' '.json_encode($data));
+            $this->logger->debug('POST ' . $response->getStatusCode().' '. $response->getContent() .' ' . $url . ' ' . json_encode($data));
         }
 
         return $this->handleResponse($response);
@@ -333,7 +333,7 @@ class SeatsIo
     {
         if (!$response->isSuccessful()) {
             if ($this->logger) {
-                $this->logger->critical('seats.io request failed with status: '.$response->getStatusCode());
+                $this->logger->critical('seats.io request failed with status: ' . $response->getStatusCode());
             }
 
             throw new UnsuccessfulResponseException();
@@ -350,7 +350,7 @@ class SeatsIo
             $content = gzdecode($content);
         } catch (\Exception $e) {
             if ($this->logger) {
-                $this->logger->debug('seats.io handleResponse: not gzencoded: '.$e->getMessage());
+                $this->logger->debug('seats.io handleResponse: not gzencoded: ' . $e->getMessage());
             }
         }
 
@@ -359,7 +359,7 @@ class SeatsIo
             return $jsonDecoded;
         } else {
             if ($this->logger) {
-                $this->logger->debug('seats.io handleResponse: not json: '.json_last_error_msg());
+                $this->logger->debug('seats.io handleResponse: not json: ' . json_last_error_msg());
             }
         }
 
