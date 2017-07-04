@@ -336,7 +336,7 @@ class SeatsIo
                 $this->logger->critical('seats.io request failed with status: ' . $response->getStatusCode());
             }
 
-            throw new UnsuccessfulResponseException();
+            throw new UnsuccessfulResponseException('seats.io request failed with status: ' . $response->getStatusCode());
         }
 
         $content = $response->getContent();
