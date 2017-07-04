@@ -6,6 +6,7 @@ use Buzz\Browser;
 use Buzz\Client\Curl;
 use Buzz\Message\Response;
 use Psr\Log\LoggerInterface;
+use Ticketpark\SeatsIo\Exception\BadSetupException;
 use Ticketpark\SeatsIo\Exception\UnsuccessfulResponseException;
 
 /**
@@ -385,7 +386,7 @@ class SeatsIo
     {
         if (null == $this->secretKey) {
 
-            throw new \Exception('You must define a secretKey with setSecretKey().');
+            throw new BadSetupException('You must define a secretKey with setSecretKey().');
         }
     }
 }

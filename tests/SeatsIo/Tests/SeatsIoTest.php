@@ -16,7 +16,7 @@ require_once('TestBrowser/TestBrowser.php');
 class SeatsIoTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException \Exception
+     * @expectedException \Ticketpark\SeatsIo\Exception\BadSetupException
      */
     public function testNoSecretKey()
     {
