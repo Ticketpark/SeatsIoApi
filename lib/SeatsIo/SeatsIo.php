@@ -346,11 +346,12 @@ class SeatsIo
             return $content;
         }
 
-        try {
-            $content = gzdecode($content);
-        } catch (\Exception $e) {
+        $gzdecoded = @gzdecode($content);
+        if ($gzdecoded) {
+            $content = $gzdecoded;
+        } else {
             if ($this->logger) {
-                $this->logger->debug('seats.io handleResponse: not gzencoded: ' . $e->getMessage());
+                $this->logger->debug('seats.io handleResponse: not gzencoded');
             }
         }
 
