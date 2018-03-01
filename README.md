@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Ticketpark/SeatsIoApi.svg?branch=master)](https://travis-ci.org/Ticketpark/SeatsIoApi)
 
-*PLEASE NOTE*
+**PLEASE NOTE**<br>
 There is now an (official seats.io php library)[https://github.com/seatsio/seatsio-php]. This library here will not be supported much longer.
 
 
